@@ -2,7 +2,17 @@ import {Header, TripCard} from "../../../components";
 import {type LoaderFunctionArgs, useSearchParams} from "react-router";
 import {getAllTrips, getTripById} from "~/appwrite/trips";
 import {parseTripData} from "~/lib/utils";
-import type {Route} from './+types/trips'
+// import the Route type from the correct path or define it here if missing
+// import type {Route} from '~/types/trips'
+// OR define Route type inline if simple:
+type Route = {
+    ComponentProps: {
+        loaderData: {
+            trips: Trip[];
+            total: number;
+        }
+    }
+}
 import {useState} from "react";
 import {PagerComponent} from "@syncfusion/ej2-react-grids";
 
@@ -24,7 +34,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     }
 }
 
-const Trips = ({ loaderData }: Route.ComponentProps) => {
+const Trips = ({ loaderData }: Route["ComponentProps"]) => {
     const trips = loaderData.trips as Trip[] | [];
 
     const [searchParams] = useSearchParams();
